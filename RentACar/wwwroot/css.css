@@ -1,0 +1,164 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0px;
+    font-family: 'segoe ui';
+  }
+  
+  .nav {
+    height: 50px;
+    width: 100%;
+    background-color: #1177ca;
+    position: relative;
+    padding-right: 100px;
+    padding-left: 30px;
+  }
+  
+  .nav > .nav-header {
+    display: inline;
+  }
+  
+  .nav > .nav-header > .nav-title {
+    display: inline-block;
+    font-size: 22px;
+    color: #fff;
+    font-weight: 550;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px 10px 10px 10px;
+  }
+  
+  .nav > .nav-btn {
+    display: none;
+  }
+  
+  .nav > .nav-links {
+    display: inline;
+    float: right;
+    padding-left:100px;
+    font-size: 18px;
+  }
+  .nav > .nav-links > ul li a{
+    display: block;
+    padding: 0 8px;
+    color: #fff;
+    line-height: 40px;
+    font-size: 18px;
+    text-decoration: none;
+
+  }
+  .nav > .nav-links > ul{
+    padding: 0;
+    margin-top: 5px;
+    list-style: none;
+    position: relative;
+    
+  }
+  .nav > .nav-links > ul li{
+    display: inline-block;
+    background-color: #1177ca;
+    
+    
+  }
+  .nav > .nav-links > ul li:hover{
+      background-color: #0b65af;
+      border-radius: 5px;
+  }
+  
+  .nav > #nav-check {
+    display: none;
+  }
+
+
+  #pozadina{
+    background-image: url("volvo.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .text{
+    text-align: center;
+    font-style: italic;
+    color:white;
+    font-size: 25px;
+    margin-top: 10%;
+  }
+  
+  .log {
+    
+    color: white;
+    background: black ;
+    border-bottom: 5px;
+    border-color: #999999;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 30px;
+    height:50px;
+    
+  }
+  .inputi{
+    margin: auto;
+    width: 200px;
+    height: 50px;
+    margin-top: 5px;
+    font-size: 18px; 
+    text-align: center;
+  }
+  .unos{
+    font-size: 15px;
+    width: 200px;
+    height: 20px;
+    margin-top: 5px;
+  
+  }
+
+  #button1{
+    border-style: solid;
+    border-color: silver;
+    background-color: white;
+    width: 210px;
+    height: 50px;
+    margin-top: 10px;
+    font-size: 18px; 
+    text-align: center;
+  
+  }
+  
+  #button1:hover{
+      background-color: skyblue;
+  }
+
+  #prikaz {
+    margin: auto;
+    text-align: center;
+    font-size: 20px; 
+  }
+
+  .div2{
+    
+    margin: auto;
+    margin-top: 50px;
+    background-color: none;
+    text-align: center;
+}
+.polje1{ 
+  width: 250px;
+  height: 40px;
+  font-size: 16px; 
+  text-align: center;
+  background-color: lightgray;
+  color: black;
+}
+
+
+
+.polje2{ 
+width: 350px;
+height: 160px;
+font-size: 16px; 
+text-align: center;
+background-color: lightgray;
+color: black;
+}

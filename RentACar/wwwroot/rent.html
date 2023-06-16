@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent-a-Car</title>
+    <link rel="stylesheet" href="css.css">
+
+
+    <script>
+
+        popuni = (podaci) => {
+
+            for (let i = 0; i < podaci.length; i++) {
+                //dodavanje reda u tabelu
+                let red = document.createElement("tr");
+                document.getElementById("podaciTabela").appendChild(red);
+
+                let Vozilo = document.createElement("td");
+                Vozilo.style.backgroundColor = "skyblue";
+                Vozilo.style.fontWeight = "bold";
+                red.appendChild(Vozilo);
+                Vozilo.innerHTML = podaci[i].voziloId;
+
+                let Model = document.createElement("td");
+                red.appendChild(Model);
+                Model.innerHTML = podaci[i].model;
+
+                let Cijena = document.createElement("td");
+                red.appendChild(Cijena);
+                Cijena.innerHTML = podaci[i].cijenaPoDanu;
+                let Reg = document.createElement("td");
+                red.appendChild(Reg);
+                Reg.innerHTML = podaci[i].regOznaka;
+
+                let BrDana = document.createElement("td");
+                red.appendChild(BrDana);
+                BrDana.innerHTML = podaci[i].brojDana;
+                let BrVozacke = document.createElement("td");
+                red.appendChild(BrVozacke);
+                BrVozacke.innerHTML = podaci[i].brojvozacke;
+
+                let Ime = document.createElement("td");
+                red.appendChild(Ime);
+                Ime.innerHTML = podaci[i].ime;
+
+                let Prezime = document.createElement("td");
+                red.appendChild(Prezime);
+                Prezime.innerHTML = podaci[i].prezime;
+
+
+                let Tel = document.createElement("td");
+                red.appendChild(Tel);
+                Tel.innerHTML = podaci[i].telefon;
+
+            }
+
+        }
+
+        podaci = () => {
+            fetch('api/Admin/prikaziznajmljeno')
+                .then(
+                    (response) => {
+                        if (response.status !== 200) {
+                            console.log('Geska: ' +
+                                response.status);
+                            return;
+                        }
+                        response.json().then((data) => {
+                            console.log(data);
+                            popuni(data);
+                        });
+                    }
+                )
+                .catch((err) => {
+                    console.log('Fetch Greska :-S', err);
+                });
+        }
+
+
+    </script>
+
+</head>
+
+<body onload="podaci()">
+
+    <div class="nav">
+        <div class="nav-header">
+            <div class="nav-title">
+                Admin pregled
+            </div>
+        </div>
+
+
+        <div class="nav-links">
+            <ul>
+                <li><a href="index.html">Početna</a></li>
+                <li><a href="admin.html">Vozila</a></li>
+                <li><a href="korisnici.html">Pregled korisnika</a></li>
+                <li><a href="rent.html">Iznajmljena + korisnik</a></li>
+                <li><a href="poruke.html">Pregled poruka</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <h2 style="padding:0 0 0 40%;">
+        Podaci o Iznajmljenim Vozilima:
+    </h2>
+    <div class="lijevi" id="lijevo">
+
+        <table style="width:auto; text-align:center" id="podaciTabela" border="1px">
+            <tr>
+                <th>Vozilo ID </th>
+                <th>Model </th>
+                <th>CijenaPoDanu</th>
+                <th>RegOznaka </th>
+                <th>Broj dana</th>
+                <th>BrojVozacke </th>
+                <th>Ime </th>
+                <th>Prezime</th>
+                <th>Telefon</th>
+            </tr>
+
+        </table>
+    </div>
+
+    <style>
+
+        tr {
+            transition: 1s;
+        }
+
+        .lijevi {
+            display: inline-block;
+            position: absolute;
+            left: 30%;
+            top: 15%;
+            float: left;
+            height: 100%;
+            width: 70%;
+            margin: 10px;
+        }
+    </style>
+
+
+</body>
+
+</html>

@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent-a-Car</title>
+    <link rel="stylesheet" href="css.css">
+
+    <style>
+        tr {
+            transition: 1s;
+        }
+
+        .lijevi {
+            display: inline-block;
+            position: absolute;
+            left: 0px;
+            top: 15%;
+            float: left;
+            height: 100%;
+            width: 70%;
+            margin: 10px;
+        }
+
+        .desni {
+            display: inline-block;
+            position: fixed;
+            top: 20%;
+            overflow: hidden;
+            left: 75%;
+        }
+    </style>
+    <script>
+
+        popuni = (podaci) => {
+            for (let i = 0; i < podaci.length; i++) {
+                let red = document.createElement("tr");
+                document.getElementById("podaciTabela").appendChild(red);
+
+                let IDVozila = document.createElement("td");
+                IDVozila.style.backgroundColor = "skyblue";
+                IDVozila.style.fontWeight = "bold";
+                red.appendChild(IDVozila);
+                IDVozila.innerHTML = podaci[i].voziloId;
+                
+                let Model = document.createElement("td");
+                Model.style.backgroundColor = "skyblue";
+                Model.style.fontWeight = "bold";
+                red.appendChild(Model);
+                Model.innerHTML = podaci[i].model;
+
+                let Proizvođač = document.createElement("td");
+                red.appendChild(Proizvođač);
+                Proizvođač.innerHTML = podaci[i].proizvođač;
+               
+                let CijenaPoDanu = document.createElement("td");
+                red.appendChild(CijenaPoDanu);
+                CijenaPoDanu.innerHTML = podaci[i].cijenaPoDanu;
+
+                let Gorivo = document.createElement("td");
+                red.appendChild(Gorivo);
+                Gorivo.innerHTML = podaci[i].gorivo;
+
+                let Mjenjač = document.createElement("td");
+                red.appendChild(Mjenjač);
+                Mjenjač.innerHTML = podaci[i].mjenjač;
+
+                let SnagaMotora = document.createElement("td");
+                red.appendChild(SnagaMotora);
+                SnagaMotora.innerHTML = podaci[i].snagaMotora;
+
+                let GodinaProizvodnje = document.createElement("td");
+                red.appendChild(GodinaProizvodnje);
+                GodinaProizvodnje.innerHTML = podaci[i].godinaProizvodnje;
+
+                let RegOznaka = document.createElement("td");
+                red.appendChild(RegOznaka);
+                RegOznaka.innerHTML = podaci[i].regOznaka;
+
+
+
+                let Slika = document.createElement("img");
+                Slika.setAttribute("width", "250");
+                Slika.setAttribute("height", "200");
+                Slika.setAttribute("src", podaci[i].slika);
+                red.appendChild(Slika);
+
+            }
+
+        }
+
+        podaci = () => {
+            fetch('api/Korisnik/prikaz')
+                .then(
+                    (response) => {
+                        if (response.status !== 200) {
+                            console.log('Geska: ' +
+                                response.status);
+                            return;
+                        }
+                        response.json().then((data) => {
+                            console.log(data);
+                            popuni(data);
+                        });
+                    }
+                )
+                .catch((err) => {
+                    console.log('Fetch Greska :-S', err);
+                });
+        }
+
+
+
+        posaljiPodatke = () => {
+            let podatak = new Object();
+            podatak.ime = document.getElementById("ime").value;
+            podatak.prezime = document.getElementById("prezime").value;
+            podatak.brojvozacke = document.getElementById("brvozacke").value;
+            podatak.telefon = parseInt(document.getElementById("telefon").value);
+            podatak.adresa = (document.getElementById("adresa").value);
+            snimi(podatak);
+
+        }
+        snimi = (podaci) => {
+            let adresa = 'api/Korisnik/unosKorisnika';
+            var strJson = JSON.stringify(podaci);
+            fetch(adresa, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: strJson
+            })
+                .then(
+                    (response) => {
+                        if (response.status < 200 || response.status > 300) {
+                            console.log('Geska: ' +
+                                response.status);
+                            alert("Niste unijeli sve podatke");
+                            return;
+                        }
+                        response.json().then((data) => {
+                            console.log(data);
+                            alert("Uspješno ste rezervisali vozilo");
+                        });
+                    }
+                )
+                .catch((err) => {
+                    console.log('Fetch Greska :-S', err);
+                });
+        }
+
+
+        posaljiIzbor = () => {
+            let izbor = new Object();
+            izbor.voziloId = parseInt(document.getElementById("vozilo").value);
+            izbor.brojvozacke = document.getElementById("brvozacke").value;
+            izbor.pocetak = document.getElementById("pocetak").value;
+            izbor.kraj = document.getElementById("kraj").value;
+
+            sacuvaj(izbor);
+        }
+
+        sacuvaj = (podaci) => {
+            let adres = 'api/Narudzba/unosNarudzbe';
+            var strJso = JSON.stringify(podaci);
+            fetch(adres, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: strJso
+            })
+                .then(
+                    (response) => {
+                        if (response.status < 200 || response.status > 300) {
+                            console.log('Geska: ' +
+                                response.status);
+                           // alert("Niste unijeli sve podatke");
+                            return;
+                        }
+                        response.json().then((data) => {
+                            console.log(data);
+                            console.log("Uspješno ste rezervisali vozilo");
+                            
+                        });
+                    }
+                )
+                .catch((err) => {
+                    console.log('Fetch Greska :-S', err);
+                });
+        }
+
+
+        preuzmiVozila = () => {
+            var url = "api/Korisnik/getVozila";
+
+            fetch(url)
+                .then((rezultat) => {
+                    if (rezultat.status != 200) {
+                        porukaError("greska  " + rezultat.status)
+                        return;
+                    }
+
+                    rezultat.json().then((vozila) => {
+                        for (let vozilo of vozila) {
+                            let novi_red = `<option value="${vozilo.voziloId}">${vozilo.voziloId + ". " + vozilo.model}</option>`;
+                            document.getElementById("vozilo").innerHTML += novi_red;
+                        }
+                    });
+
+                })
+                .catch((error) => {
+                    porukaError("greska  " + error)
+                });
+        }
+
+        inicijalizacija = () => {
+            preuzmiVozila();
+        }
+
+        document.addEventListener("load", inicijalizacija());
+
+
+    </script>
+
+</head>
+
+<body onload="podaci()">
+
+    <div class="nav">
+        <div class="nav-header">
+            <div class="nav-title">
+                Dostupna vozila
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <ul>
+                <li><a href="index.html">Početna</a></li>
+                <li><a href="dostupnaVozila.html">Dostupna vozila</a></li>
+                <li><a href="iznajmljena.html">Iznajmljena vozila</a></li>
+                <li><a href="brisanje.html">Otkazivanje rezervacije</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
+                <li><a href="provj.html">AdminLog</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    <h2 style="padding:0 0 0 25%;">
+        Dostupna vozila
+    </h2>
+
+    <div class="lijevi">
+
+        <table style="width:auto; text-align:center" id="podaciTabela" border="1px">
+            <tr>
+                <th>ID Vozila</th>
+                <th>Model</th>
+                <th>Proizvođač</th>
+                <th>Cijena Po Danu</th>
+                <th>Gorivo</th>
+                <th>Mjenjač</th>
+                <th>Snaga Motora</th>
+                <th>Godina Proizvodnje</th>
+                <th>Registarske Oznake</th>
+                <th>Slika Vozila</th>
+
+            </tr>
+
+        </table>
+    </div>
+    <div class="desni">
+        <h4>Rezervisi vozilo</h4>
+        <label>Ime: <input type="text" id="ime"></label><br />
+        <label>Prezime: <input type="text" id="prezime"></label><br />
+        <label> Broj Vozačke: <input type="text" id="brvozacke"></label><br />
+        <label>Telefon: <input type="text" id="telefon"></label><br />
+        <label>Adresa: <input type="text" id="adresa"></label><br />
+
+        <label>
+            Izbor vozila po ID/modelu
+            <select id="vozilo"><option>(Odaberi vozilo)</option></select></label><br />
+        <label>Početni datum: <input type="date" id="pocetak"></label><br />
+        <label>Krajnji datum: <input type="date" id="kraj"></label><br />
+
+        <button id="iznajmi" onclick="posaljiPodatke(),posaljiIzbor()">Iznajmi Vozilo</button>
+
+
+    </div>
+
+</body>
+
+</html>

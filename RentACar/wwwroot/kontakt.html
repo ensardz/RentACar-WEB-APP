@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent-a-Car</title>
+    <link rel="stylesheet" href="css.css">
+
+    <script>
+
+
+        posaljiPoruku = () => {
+            let porukaun = new Object();
+            porukaun.ime = document.getElementById("ime").value;
+            porukaun.prezime = document.getElementById("prezime").value;
+            porukaun.brVozacke = document.getElementById("brojVozacke").value;
+            porukaun.poruka = document.getElementById("poruka").value;
+            
+            sacuvaj(porukaun);
+
+        }
+        sacuvaj = (podaci) => {
+            let adresa = 'api/Poruka/unosPoruke';
+            var strJson = JSON.stringify(podaci);
+            fetch(adresa, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: strJson
+            })
+                .then(
+                    (response) => {
+                        if (response.status < 200 || response.status > 300) {
+                            console.log('Geska: ' +
+                                response.status);
+                            alert("Niste unijeli sve podatke");
+                            return;
+                        }
+                        response.json().then((data) => {
+                            console.log(data);
+                            alert("Vaša poruka je zabilježena!");
+                        });
+                    }
+                )
+                .catch((err) => {
+                    console.log('Fetch Greska :-S', err);
+                });
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <div class="nav">
+        <div class="nav-header">
+            <div class="nav-title">
+                Dostupna vozila
+            </div>
+        </div>
+
+
+        <div class="nav-links">
+            <ul>
+                <li><a href="index.html">Početna</a></li>
+                <li><a href="dostupnaVozila.html">Dostupna vozila</a></li>
+                <li><a href="iznajmljena.html">Iznajmljena vozila</a></li>
+                <li><a href="brisanje.html">Otkazivanje rezervacije</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
+                <li><a href="provj.html">AdminLog</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div class="div2">
+        <h1 style="color: black;">Pošaljite poruku</h1>
+        <input id="ime" class="polje1" title="Unesite Vaše ime" type="text" placeholder="Ime">
+        <br>
+        <br>
+        <input id="prezime" class="polje1" title="Unesite Vaš e-mail" type="text" placeholder="Prezime">
+        <br>
+        <br>
+        <input id="brojVozacke" class="polje1" type="text" placeholder="Unesite Serijski Broj Vozačke Dozvole" title="brojVozacke">
+        <br>
+        <br>
+        <input id="poruka" class="polje2" type="text" placeholder="Poruka" title="Unesite poruku">
+        <br>
+        <br>
+        <button onclick="posaljiPoruku()" style="height: 50px; width: 100px ; " title="Klikni za potvrdu">Pošalji</button>
+    </div>
+
+</body>
+
+</html>

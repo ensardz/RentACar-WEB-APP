@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent-a-Car</title>
+    <link rel="stylesheet" href="css.css">
+
+    <script>
+
+        preuzmiAdmin = () => {
+            var url = "api/Admin/getAdmin";
+
+            fetch(url)
+                .then((rezultat) => {
+                    if (rezultat.status != 200) {
+                        porukaError("greska  " + rezultat.status)
+                        return;
+                    }
+
+                    rezultat.json().then((admins) => {
+                        console.log(admins);
+                        for (var admin of admins) {
+                            var novi_red1 = `${admin.ime}`;
+                          
+                            var novi_red2 = `${admin.sifra}`;
+
+                            //uzima // 
+
+                            posaljiIzbor = () => {
+                                let provj = new Object();
+                                provj.ime = document.getElementById("ime").value;
+                                provj.sifra = document.getElementById("sifra").value;
+
+                                if (provj.ime == novi_red1 && provj.sifra == novi_red2) {
+                                    window.location = 'admin.html';
+                                }
+                                else {
+                                    alert("Netačni podaci!");
+                                }
+                            }
+                        }
+                    });
+
+                })
+                .catch((error) => {
+                    porukaError("greska  " + error)
+                });
+        }
+
+        inicijalizacija = () => {
+            preuzmiAdmin();
+        }
+
+        document.addEventListener("load", inicijalizacija());
+
+    </script>
+
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav-header">
+            <div class="nav-title">
+                Dostupna vozila
+            </div>
+        </div>
+
+
+        <div class="nav-links">
+            <ul>
+                <li><a href="index.html">Početna</a></li>
+                <li><a href="dostupnaVozila.html">Dostupna vozila</a></li>
+                <li><a href="iznajmljena.html">Iznajmljena vozila</a></li>
+                <li><a href="brisanje.html">Otkazivanje rezervacije</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
+                <li><a href="provj.html">AdminLog</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="inputi">
+        <h5>Unesi pristupne podatke </h5>
+        <input class="unos" id="ime" placeholder="ime">
+        <br>
+        <input class="unos" id="sifra" placeholder="lozinka" type="password">
+        <br>
+        <br>
+        <button id="button1" onclick="posaljiIzbor()">
+            Potvrdi
+        </button>
+        <br>
+        
+        <p id="p1"></p>
+        <p id="p2"></p>
+    </div>
+
+</body>
+
+</html>

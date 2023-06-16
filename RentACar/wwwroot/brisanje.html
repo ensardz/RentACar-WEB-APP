@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent-a-Car</title>
+    <link rel="stylesheet" href="css.css">
+
+    <style>
+        tr {
+            transition: 1s;
+        }
+
+        .lijevi {
+            display: inline-block;
+            position: absolute;
+            left: 31%;
+            top: 15%;
+            float: left;
+            height: 100%;
+            width: 70%;
+            margin: 10px;
+        }
+    </style>
+    <script>
+
+        popuni = (podaci) => {
+            for (let i = 0; i < podaci.length; i++) {
+
+                let red = document.createElement("tr");
+                document.getElementById("podaciTabela").appendChild(red);
+                let IznajmljenoId = document.createElement("td");
+                red.appendChild(IznajmljenoId);
+                IznajmljenoId.innerHTML = podaci[i].iznajmljenoId;
+                let VoziloId = document.createElement("td");
+                VoziloId.style.backgroundColor = "skyblue";
+                VoziloId.style.fontWeight = "bold";
+                red.appendChild(VoziloId);
+                VoziloId.innerHTML = podaci[i].voziloId;
+                let Pocetni = document.createElement("td");
+                red.appendChild(Pocetni);
+                Pocetni.innerHTML = podaci[i].pocetak;
+                let Kraj = document.createElement("td");
+                red.appendChild(Kraj);
+                Kraj.innerHTML = podaci[i].kraj;
+
+
+            }
+
+        }
+      //  var i = prompt("unesi broj", );
+      //  console.log(i);
+
+        podaci = () => {
+            fetch('api/Narudzba/prikaz')
+                .then(
+                    (response) => {
+                        if (response.status !== 200) {
+                            console.log('Geska: ' +
+                                response.status);
+                            return;
+                        }
+                        response.json().then((data) => {
+                            console.log(data);
+                            popuni(data);
+                        });
+                    }
+                )
+                .catch((err) => {
+                    console.log('Fetch Greska :-S', err);
+                });
+        }
+       
+        brisi = () => {
+            let br = prompt("unesi broj vozacke", );
+            console.log(br);
+            obrisi(br);
+        }
+
+        obrisi = (id) => {
+
+            let adres = "api/Narudzba/obrisiPodatak/";
+            adres += id;
+            fetch(adres,
+                {
+                    method: 'DELETE'
+                })
+                .then(
+                    (response) => {
+                        if (response.status !== 200) {
+                            console.log('Geska: ' +
+                                response.status);
+                            alert("Niste rezervisali vozilo");
+                            return;
+                        }
+                        response.text().then((data) => {
+                            console.log(data);
+
+                            let element = document.getElementById("red" + id);
+                            window.location.reload();
+                            setTimeout(() => {
+                                element.remove();
+
+                            }, 1000);
+                        });
+                    }
+                )
+                .catch((err) => {
+                    console.log('Fetch Greska :-S', err);
+                });
+
+        }
+
+    </script>
+
+</head>
+
+<body onload="podaci()">
+
+    <div class="nav">
+        <div class="nav-header">
+            <div class="nav-title">
+                Iznajmljena vozila
+            </div>
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="index.html">Početna</a></li>
+                <li><a href="dostupnaVozila.html">Dostupna vozila</a></li>
+                <li><a href="iznajmljena.html">Iznajmljena vozila</a></li>
+                <li><a href="brisanje.html">Otkazivanje rezervacije</a></li>
+                <li><a href="kontakt.html">Kontakt</a></li>
+                <li><a href="provj.html">AdminLog</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    <h2 style="padding:0 0 0 40%;">
+        Brisanje rezervacija
+    </h2>
+
+    <div class="lijevi">
+        <button style="margin:0 0 10px 15%;" onclick="brisi()">Obrisi Rezervaciju Vozila</button>
+        <table style="width:auto; text-align:center" id="podaciTabela" border="1px">
+            <tr>
+                <th>Iznajmljeno ID</th>
+                <th>Vozilo ID</th>
+                <th>Pocetni Datum</th>
+                <th>Krajnji Datum</th>
+            </tr>
+
+        </table>
+
+    </div>
+
+     
+</body>
+
+</html>
