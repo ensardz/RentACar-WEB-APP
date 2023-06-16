@@ -5,3 +5,7 @@
 - Otkazivanje Rezervacije
 - Iznajmljena Vozila
 - Admin Panel
+
+```
+Baza: db_Rent
+```
